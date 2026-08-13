@@ -1,0 +1,4 @@
+◇ injected env (2) from .env // tip: ⌘ suppress logs { quiet: true }
+Server is running on port 5002
+MongoDB Connected ✅
+REQ POST /api/auth/change-password Origin: -
