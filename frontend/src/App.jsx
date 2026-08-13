@@ -10,7 +10,7 @@ import Landing from './pages/Landing'
 import Account from './pages/Account'
 import { useAuth } from './AuthContext'
 
-const API_URL = "/api/disasters";
+const API_URL = `${import.meta.env.VITE_API_URL}/api/disasters`;
 
 export default function App() {
   const [disasters, setDisasters] = useState([]);
