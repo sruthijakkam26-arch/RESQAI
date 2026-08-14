@@ -27,7 +27,8 @@ export default function AirRisk() {
         throw new Error('Enter valid latitude and longitude values');
       }
 
-      const url = `/api/air/assess?lat=${encodeURIComponent(qlat)}&lon=${encodeURIComponent(qlon)}`;
+      const apiBaseUrl = import.meta.env.VITE_API_URL || '';
+      const url = `${apiBaseUrl}/api/air/assess?lat=${encodeURIComponent(qlat)}&lon=${encodeURIComponent(qlon)}`;
       console.log('AirRisk request', url);
       const r = await fetch(url);
       const ctype = r.headers.get('content-type') || '';

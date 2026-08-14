@@ -111,7 +111,7 @@ export default function NearbyHelp() {
           setLocation({ lat, lon });
 
           const response = await fetch(
-            `${import.meta.env.VITE_API_URL}/api/nearby?lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}&radius=${encodeURIComponent(radius)}`
+            `${import.meta.env.VITE_API_URL || ""}/api/nearby?lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}&radius=${encodeURIComponent(radius)}`
           );
 
           if (!response.ok) {

@@ -10,7 +10,7 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('token') || null);
 
-  const API = `${import.meta.env.VITE_API_URL}/api/auth`;
+  const API = `${import.meta.env.VITE_API_URL || ''}/api/auth`;
 
   useEffect(() => {
     const load = async () => {
