@@ -5,7 +5,7 @@ const router = express.Router();
 const OVERPASS_ENDPOINTS = [
   "https://overpass-api.de/api/interpreter",
   "https://overpass.kumi.systems/api/interpreter",
-  "https://overpass.nchc.org.tw/api/interpreter",
+  
 ];
 const cache = new Map();
 const CACHE_TTL_MS = 5 * 60 * 1000;
@@ -53,10 +53,19 @@ router.get("/", async (req, res) => {
     return res.status(400).json({ message: "Search radius must be between 1 and 25 km" });
   }
 
-  const query = `[out:json][timeout:25];(
-    nwr(around:${Math.round(radiusKm * 1000)},${lat},${lon})["amenity"~"^(hospital|clinic|pharmacy|shelter|fire_station|police)$"];
-    nwr(around:${Math.round(radiusKm * 1000)},${lat},${lon})["social_facility"="shelter"];
-  );out center tags;`;
+  const radiusMeters = Math.round(radiusKm * 1000);
+
+const query = `[out:json][timeout:25];
+(
+  nwr["amenity"="hospital"](around:${radiusMeters},${lat},${lon});
+  nwr["amenity"="clinic"](around:${radiusMeters},${lat},${lon});
+  nwr["amenity"="pharmacy"](around:${radiusMeters},${lat},${lon});
+  nwr["amenity"="police"](around:${radiusMeters},${lat},${lon});
+  nwr["amenity"="fire_station"](around:${radiusMeters},${lat},${lon});
+  nwr["amenity"="shelter"](around:${radiusMeters},${lat},${lon});
+  nwr["social_facility"="shelter"](around:${radiusMeters},${lat},${lon});
+);
+out center tags;`;
   const cacheKey = `${lat.toFixed(3)},${lon.toFixed(3)},${radiusKm}`;
   const cached = cache.get(cacheKey);
   if (cached && Date.now() - cached.savedAt < CACHE_TTL_MS) return res.json({ elements: cached.elements, cached: true });
